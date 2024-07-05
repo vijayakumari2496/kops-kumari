@@ -1,0 +1,17 @@
+curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+chmod +x kops
+mv kops /usr/local/bin/kop
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+mv kubectl /usr/local/bin/kubectl
+aws s3 ls
+aws configure
+export AWS_ACCESS_KEY=AKIAXVBN6WOBCR24NXGV
+export AWS_SECRET_ACCESS_KEY=
+echo $AWS_ACCESS_KEY
+echo $AWS_SECRET_ACCESS_KEY
+aws s3 mb s3://kumari123456 --region ap-southest-1
+export KOPS_STATE_STORE=s3://kumari123456
+printenv
+export NAME=volumekubernetes.k8s.local
+kops create cluster --zones ap-southeast-1c ${NAME}
